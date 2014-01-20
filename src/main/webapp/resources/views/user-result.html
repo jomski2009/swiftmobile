@@ -1,0 +1,12 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<title>User was successfully created</title>
+<link href="/resources/css/base.css" rel="stylesheet" type="text/css"/>
+</head>
+<body>
+<h3 th:text="${user.firstname} + ' ' + ${user.lastname} "></h3>
+<p>The email is <span th:text="${user.email}" /></p>
+</body>
+</html>

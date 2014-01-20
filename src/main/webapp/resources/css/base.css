@@ -1,0 +1,13 @@
+@CHARSET "UTF-8";
+
+p{
+	color: blue;
+	font-size:20px;
+	padding:1em;
+	border:2px solid black;
+}
+
+h3{
+	color:red;
+	border-bottom: 3px solid #345efd;
+}

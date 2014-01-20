@@ -1,0 +1,93 @@
+buildscript{
+	repositories{
+		mavenLocal()
+		maven{ url "http://repo.spring.io/libs-snapshot"}
+		maven {url "http://download.java.net/maven/2"}
+    	maven { url 'http://repo.spring.io/plugins-release' }
+    	jcenter()
+	}
+	dependencies{
+		classpath 'org.springframework.boot:spring-boot-gradle-plugin:0.5.0.M6'
+		classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.0'
+		classpath 'org.gradle.api.plugins:gradle-cargo-plugin:1.1'
+	}
+}
+
+apply plugin: 'java'
+apply plugin: 'eclipse'
+apply plugin: 'spring-boot'
+apply plugin: 'idea'
+
+apply plugin: 'cargo'
+apply plugin: 'tomcat'
+apply plugin: 'war'
+
+repositories{
+	mavenCentral()
+	maven{ url "http://repo.spring.io/libs-snapshot"}
+
+}
+
+war{
+	baseName='ROOT'
+}
+
+
+dependencies{
+	def cargoVersion = '1.4.5'
+	cargo "org.codehaus.cargo:cargo-core-uberjar:$cargoVersion", "org.codehaus.cargo:cargo-ant:$cargoVersion"
+
+    def tomcatVersion = '7.0.47'
+
+    tomcat "org.apache.tomcat.embed:tomcat-embed-core:${tomcatVersion}",
+           "org.apache.tomcat.embed:tomcat-embed-logging-juli:${tomcatVersion}"
+    tomcat("org.apache.tomcat.embed:tomcat-embed-jasper:${tomcatVersion}") {
+        exclude group: 'org.eclipse.jdt.core.compiler', module: 'ecj'
+    }
+
+	compile 'org.springframework.boot:spring-boot-starter-web:0.5.0.M6'
+	compile 'org.springframework.boot:spring-boot-starter-tomcat:0.5.0.M6'
+	compile 'org.springframework.boot:spring-boot-starter-aop:0.5.0.M6'
+	compile 'org.springframework.boot:spring-boot-starter-data-jpa:0.5.0.M6'
+ 	compile 'org.springframework.boot:spring-boot-starter-security:0.5.0.M6'
+    compile 'org.springframework.boot:spring-boot-starter-actuator:0.5.0.M6'
+ 	compile 'org.hibernate:hibernate-entitymanager:4.2.1.Final'	
+ 	compile 'mysql:mysql-connector-java:5.1.22'
+    compile 'org.jdom:jdom:2.0.0'
+	compile 'org.projectreactor:reactor-spring:1.0.0.M1'
+    compile 'com.jolbox:bonecp:0.7.1.RELEASE'
+	compile 'commons-lang:commons-lang:2.6'
+    compile 'org.thymeleaf:thymeleaf-spring3:2.0.18'  
+    compile 'com.googlecode.json-simple:json-simple:1.1.1'
+    compile 'org.springframework.hateoas:spring-hateoas:0.8.0.RELEASE'
+	//compile 'log4j:log4j:1.2.17'
+    compile 'net.sf.opencsv:opencsv:2.3'
+
+
+    testCompile("junit:junit:4.11")
+
+}
+
+task wrapper(type: Wrapper){
+	gradleVersion = '1.9'
+}
+
+tomcatRunWar{
+	tomcatRunWar.
+	contextPath=''
+}
+
+cargo{
+	containerId = 'tomcat7x'
+	port = 8080
+//	deployable{
+//		context = ''		
+//	}
+//	
+	remote {
+		hostname = '173.236.139.35'
+		username = 'jomski2009'
+		password = 'wordpass15'	
+	}	
+}
+
